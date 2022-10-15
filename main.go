@@ -27,6 +27,7 @@ func main() {
 	// boot router
 	r := gin.New()
 	bootstrap.SetupRouter(r)
+	gin.SetMode(gin.ReleaseMode)
 
 	err := r.Run(":" + config.Get("app.port"))
 	if err != nil {

@@ -4,6 +4,7 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
+	"github.com/vinoMamba/gohub/app/http/middlewares"
 	"github.com/vinoMamba/gohub/routes"
 )
 
@@ -21,8 +22,8 @@ func SetupRouter(r *gin.Engine) {
 
 func registerMiddleware(r *gin.Engine) {
 	r.Use(
-		gin.Logger(),
-		gin.Recovery(),
+		middlewares.Logger(),
+		middlewares.Recovery(),
 	)
 }
 
