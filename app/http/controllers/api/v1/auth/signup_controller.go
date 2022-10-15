@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	v1 "github.com/vinoMamba/gohub/app/http/controllers/api/v1"
 	"github.com/vinoMamba/gohub/app/models/user"
+	"github.com/vinoMamba/gohub/app/requests"
 )
 
 type SignupController struct {
@@ -14,11 +15,7 @@ type SignupController struct {
 
 func (sc *SignupController) IsPhoneExist(ctx *gin.Context) {
 
-	type PhoneExistRequest struct {
-		Phone string `json:"phone"`
-	}
-
-	request := PhoneExistRequest{}
+	request := requests.SignupPhoneExistRequest{}
 
 	if err := ctx.ShouldBindJSON(&request); err != nil {
 		ctx.AbortWithStatusJSON(429, gin.H{"error": err.Error()})
@@ -26,6 +23,11 @@ func (sc *SignupController) IsPhoneExist(ctx *gin.Context) {
 		return
 	}
 
+	errs := requests.ValidateSignupPhoneExist(&request, ctx)
+	if len(errs) > 0 {
+		ctx.AbortWithStatusJSON(422, gin.H{"errors": errs})
+		return
+	}
 	ctx.JSON(200, gin.H{
 		"exist": user.IsPhoneExist(request.Phone),
 	})
