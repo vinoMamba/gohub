@@ -7,6 +7,7 @@ func init() {
 		return map[string]interface{}{
 			"name": config.Env("APP_NAME", "gohub"),
 			"port": config.Env("APP_PORT", "3000"),
+			"env":  config.Env("APP_ENV", "local"),
 		}
 	})
 }
