@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/vinoMamba/gohub/app/models/user"
 	"github.com/vinoMamba/gohub/pkg/config"
 	"github.com/vinoMamba/gohub/pkg/database"
 	"gorm.io/driver/postgres"
@@ -28,4 +29,5 @@ func SetupDB() {
 	}
 
 	database.Connect(dbConfig, logger.Default.LogMode(logger.Info))
+	database.DB.AutoMigrate(&user.User{})
 }
