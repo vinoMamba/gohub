@@ -1,8 +1,6 @@
 package auth
 
 import (
-	"fmt"
-
 	"github.com/gin-gonic/gin"
 	v1 "github.com/vinoMamba/gohub/app/http/controllers/api/v1"
 	"github.com/vinoMamba/gohub/app/models/user"
@@ -16,16 +14,7 @@ type SignupController struct {
 func (sc *SignupController) IsPhoneExist(ctx *gin.Context) {
 
 	request := requests.SignupPhoneExistRequest{}
-
-	if err := ctx.ShouldBindJSON(&request); err != nil {
-		ctx.AbortWithStatusJSON(429, gin.H{"error": err.Error()})
-		fmt.Println(err.Error())
-		return
-	}
-
-	errs := requests.ValidateSignupPhoneExist(&request, ctx)
-	if len(errs) > 0 {
-		ctx.AbortWithStatusJSON(422, gin.H{"errors": errs})
+	if ok := requests.Validate(ctx, &request, requests.ValidateSignupPhoneExist); !ok {
 		return
 	}
 	ctx.JSON(200, gin.H{
@@ -35,14 +24,7 @@ func (sc *SignupController) IsPhoneExist(ctx *gin.Context) {
 
 func (sc *SignupController) IsEmailExist(ctx *gin.Context) {
 	request := requests.SignupEmailExistRequest{}
-	if err := ctx.ShouldBindJSON(&request); err != nil {
-		ctx.AbortWithStatusJSON(429, gin.H{"error": err.Error()})
-		fmt.Println(err.Error())
-		return
-	}
-	errs := requests.ValidateSignupEmailExist(&request, ctx)
-	if len(errs) > 0 {
-		ctx.AbortWithStatusJSON(422, gin.H{"errors": errs})
+	if ok := requests.Validate(ctx, &request, requests.ValidateSignupEmailExist); !ok {
 		return
 	}
 	ctx.JSON(200, gin.H{
