@@ -7,9 +7,9 @@ import (
 	"github.com/vinoMamba/gohub/app/models/user"
 	"github.com/vinoMamba/gohub/pkg/config"
 	"github.com/vinoMamba/gohub/pkg/database"
+	"github.com/vinoMamba/gohub/pkg/logger"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
 )
 
 func SetupDB() {
@@ -28,6 +28,6 @@ func SetupDB() {
 		panic(errors.New("database connection not supported"))
 	}
 
-	database.Connect(dbConfig, logger.Default.LogMode(logger.Info))
+	database.Connect(dbConfig, logger.NewGormLogger())
 	database.DB.AutoMigrate(&user.User{})
 }
