@@ -5,6 +5,7 @@ import (
 	v1 "github.com/vinoMamba/gohub/app/http/controllers/api/v1"
 	"github.com/vinoMamba/gohub/app/models/user"
 	"github.com/vinoMamba/gohub/app/requests"
+	"github.com/vinoMamba/gohub/pkg/response"
 )
 
 type SignupController struct {
@@ -17,7 +18,7 @@ func (sc *SignupController) IsPhoneExist(ctx *gin.Context) {
 	if ok := requests.Validate(ctx, &request, requests.ValidateSignupPhoneExist); !ok {
 		return
 	}
-	ctx.JSON(200, gin.H{
+	response.Success(ctx, gin.H{
 		"exist": user.IsPhoneExist(request.Phone),
 	})
 }
@@ -27,7 +28,7 @@ func (sc *SignupController) IsEmailExist(ctx *gin.Context) {
 	if ok := requests.Validate(ctx, &request, requests.ValidateSignupEmailExist); !ok {
 		return
 	}
-	ctx.JSON(200, gin.H{
+	response.Success(ctx, gin.H{
 		"exist": user.IsEmailExist(request.Email),
 	})
 }
