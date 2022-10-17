@@ -24,6 +24,9 @@ func main() {
 	bootstrap.SetupLogger()
 	//boot DB
 	bootstrap.SetupDB()
+	//boot redis
+	bootstrap.SetupRedis()
+
 	// boot router
 	r := gin.New()
 	bootstrap.SetupRouter(r)
